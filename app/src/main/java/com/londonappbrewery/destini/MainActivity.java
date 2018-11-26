@@ -20,12 +20,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mStoryIndex = 1;
+        if (savedInstanceState != null){
+            mStoryIndex = savedInstanceState.getInt("StoryKey");
+        } else {
+            mStoryIndex = 1;
+        }
 
         // TODO: Step 5 - Wire up the 3 views from the layout to the member variables:
         mStoryTextView = (TextView)findViewById(R.id.storyTextView);
         mButtonTop = (Button)findViewById(R.id.buttonTop);
         mButtonBottom = (Button)findViewById(R.id.buttonBottom);
+
+        updateConditional(mStoryIndex);
 
         // TODO: Steps 6, 7, & 9 - Set a listener on the top button:
         mButtonTop.setOnClickListener(new View.OnClickListener() {
@@ -93,5 +99,12 @@ public class MainActivity extends AppCompatActivity {
             mButtonTop.setVisibility(View.GONE);
             mButtonBottom.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("StoryKey", mStoryIndex);
     }
 }
